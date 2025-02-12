@@ -18,7 +18,7 @@ COPY src ./src
 RUN mvn clean package -X
 
 # Copy the JAR file
-COPY target/*.jar .
+COPY . .
 
 # Expose port
 EXPOSE 8070
