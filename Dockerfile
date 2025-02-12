@@ -1,8 +1,8 @@
 FROM openjdk:8u151-jdk-alpine3.7
 WORKDIR /app
-RUN apk add --no-cache maven
-COPY pom* .
-RUN mvn clean package
+RUN apt install mvn -y
+COPY porm* .
+RUN mvn clean package -X
 COPY *.jar /app
 EXPOSE 8070
 ENTRYPOINT exec java -jar app.jar
