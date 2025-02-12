@@ -1,7 +1,7 @@
 FROM openjdk:8u151-jdk-alpine3.7
 WORKDIR /app
-RUN apt install mvn -y
-COPY porm* .
+RUN apk add --no-cache maven
+COPY pom* .
 RUN mvn clean package
 COPY *.jar /app
 EXPOSE 8070
