@@ -1,8 +1,27 @@
 FROM openjdk:8u151-jdk-alpine3.7
+
 WORKDIR /app
-RUN apt install mvn -y
-COPY porm* .
+
+# Install Maven
+RUN apk add --no-cache maven
+
+# Copy and verify pom.xml
+COPY pom.xml .
+
+# Download dependencies before building (improves build cache usage)
+RUN mvn dependency:resolve
+
+# Copy the source code
+COPY src ./src
+
+# Build the application
 RUN mvn clean package -X
-COPY *.jar /app
+
+# Copy the JAR file
+COPY target/*.jar app.jar
+
+# Expose port
 EXPOSE 8070
-ENTRYPOINT exec java -jar app.jar
+
+# Run the application
+ENTRYPOINT ["java", "-jar", "app.jar"]
